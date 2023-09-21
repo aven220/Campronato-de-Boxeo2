@@ -3,18 +3,27 @@ package proyecto;
 public class Manager {
 
     private String nombre,apellido,telefono,correo,identificacion;
-    private int edad;
+    private int edad,idBoxeador;
 
     public Manager() {
     }
 
-    public Manager(String nombre, String apellido, String telefono, String correo, String identificacion, int edad) {
+    public Manager(String nombre, String apellido, String telefono, String correo, String identificacion, int idBoxeador, int edad) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.correo = correo;
         this.identificacion = identificacion;
+        this.idBoxeador = idBoxeador;
         this.edad = edad;
+    }
+
+    public int getIdBoxeador() {
+        return idBoxeador;
+    }
+
+    public void setIdBoxeador(int idBoxeador) {
+        this.idBoxeador = idBoxeador;
     }
 
     public String getNombre() {

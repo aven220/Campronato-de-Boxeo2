@@ -33,7 +33,7 @@ public class TablaBoxeadores extends JFrame {
                 boxeador.getApellido(),
                 boxeador.getCorreo(),
                 boxeador.getIdentificacion(),
-                boxeador.getCategoria(),
+                boxeador.getIdCategoria(),
                 boxeador.getEdad(),
                 boxeador.getTitulos(),
                 boxeador.getKo(),
