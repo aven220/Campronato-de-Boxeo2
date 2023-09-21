@@ -749,10 +749,7 @@ public class Torneo extends javax.swing.JFrame {
 
         jTable8.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nombre", "Gym", "Categoria", "Puntos"
@@ -768,10 +765,7 @@ public class Torneo extends javax.swing.JFrame {
 
         jTable9.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nombre", "Gym", "Categoria", "Puntos"
@@ -787,10 +781,7 @@ public class Torneo extends javax.swing.JFrame {
 
         jTable10.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nombre", "Gym", "Categoria", "Puntos"
@@ -806,10 +797,7 @@ public class Torneo extends javax.swing.JFrame {
 
         jTable11.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nombre", "Gym", "Categoria", "Puntos"
