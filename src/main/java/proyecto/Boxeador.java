@@ -2,32 +2,39 @@ package proyecto;
 
 public class Boxeador {
     
- private String nombre,apellido,telefono,correo,identificacion,gym;
- private int edad,titulos,ko,empates,rank,id,idCategoria;
+ private String nombre,apellido,telefono,correo,identificacion,gym,categoria,manager;
+ private int edad,titulos,ko,empates,rank,id;
  private double peso,altura;
 
     public Boxeador() {
     }
 
-    public Boxeador(String nombre, String apellido, String telefono, String correo, String identificacion, String gym, int edad, int titulos, int ko, int empates, int rank, int id, int idCategoria, double peso, double altura) {
+    public Boxeador(String nombre, String apellido, String telefono, String correo, String identificacion, String gym, String categoria, String manager, int edad, int titulos, int ko, int empates, int rank, int id, double peso, double altura) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.correo = correo;
         this.identificacion = identificacion;
         this.gym = gym;
+        this.categoria = categoria;
+        this.manager = manager;
         this.edad = edad;
         this.titulos = titulos;
         this.ko = ko;
         this.empates = empates;
         this.rank = rank;
         this.id = id;
-        this.idCategoria = idCategoria;
         this.peso = peso;
         this.altura = altura;
     }
 
+    public String getManager() {
+        return manager;
+    }
 
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
 
     public String getNombre() {
         return nombre;
@@ -69,12 +76,12 @@ public class Boxeador {
         this.identificacion = identificacion;
     }
 
-    public int getIdCategoria() {
-        return idCategoria;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setIdCategoria(int idCategoria) {
-        this.idCategoria = idCategoria;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
 

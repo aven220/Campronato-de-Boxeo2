@@ -2,19 +2,32 @@ package proyecto;
 
 
 public class Ranking {
-   String nombre,identificacion,categoria,gym;
+   String nombre,identificacion,categoria,gym,box;
    double puntuacion;
    int puesto;
 
     public Ranking() {
     }
 
-    public Ranking(String nombre, String identificacion, double puntuacion, int puesto) {
+    public Ranking(String nombre, String identificacion, String categoria, String gym, String box, double puntuacion, int puesto) {
         this.nombre = nombre;
         this.identificacion = identificacion;
+        this.categoria = categoria;
+        this.gym = gym;
+        this.box = box;
         this.puntuacion = puntuacion;
         this.puesto = puesto;
     }
+
+    public String getBox() {
+        return box;
+    }
+
+    public void setBox(String box) {
+        this.box = box;
+    }
+
+ 
 
     public String getGym() {
         return gym;

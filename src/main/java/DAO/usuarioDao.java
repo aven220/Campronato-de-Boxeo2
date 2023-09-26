@@ -42,15 +42,56 @@ public class usuarioDao {
         }
         return conexion;
     }
+//////////////////////////////////////////////
+
+    public boolean verificarCredenciales(String usuarioIngresado, char[] contrasenaIngresada) {
+        Connection conexion = conectar();
+        String contrasenaTexto = new String(contrasenaIngresada);
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            String consultaSQL = "SELECT * FROM juez WHERE usuario = ? AND contrasena = ?";
+            preparedStatement = conexion.prepareStatement(consultaSQL);
+            preparedStatement.setString(1, usuarioIngresado);
+            preparedStatement.setString(2, contrasenaTexto);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(null, "BIENVENIDO " + usuarioIngresado);
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+                return false;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error de conexión a la base de datos");
+            return false;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+/////////////////////////////////////
 
     public void agregarBox(Boxeador user) {
 
         try {
             Connection conexion = conectar();
-            String sql = "INSERT INTO `boxeador` ( `nombre`, `apellido`,`documento`, "
+            String sql = "INSERT INTO `boxeador` ( `nombreBox`, `apellido`,`documento`, "
                     + "`idCategoria`, `edad`, `peso`, `altura`) "
                     + "VALUES ('" + user.getNombre() + "', '" + user.getApellido() + "'"
-                    + ", '" + user.getIdentificacion() + "', '" + user.getIdCategoria() + "',"
+                    + ", '" + user.getIdentificacion() + "', '" + user.getCategoria() + "',"
                     + " '" + user.getEdad() + "'"
                     + ", '" + user.getPeso() + "', '" + user.getAltura() + "');";
 
@@ -61,24 +102,28 @@ public class usuarioDao {
         }
     }
 
-    public List listarBox() {
+    public List<Boxeador> listarBox() {
         List<Boxeador> listaBoxeadores = new ArrayList<>();
 
         try {
             Connection conexion = conectar();
-            String sql = "SELECT * FROM boxeador";
+            String sql = "SELECT documento, nombreBox, apellido, edad, peso, altura, nombreGym, "
+                    + "nombreCategoria FROM boxeador INNER JOIN gym ON boxeador.idGym = gym.idGym "
+                    + "INNER JOIN categoria ON boxeador.idCategoria = categoria.idCategoria";
+
             Statement statement = conexion.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
                 Boxeador boxeador = new Boxeador();
                 boxeador.setIdentificacion(resultSet.getString("documento"));
-                boxeador.setNombre(resultSet.getString("nombre"));
+                boxeador.setNombre(resultSet.getString("nombreBox"));
                 boxeador.setApellido(resultSet.getString("apellido"));
-                boxeador.setIdCategoria(resultSet.getInt("idCategoria"));
                 boxeador.setEdad(resultSet.getInt("edad"));
                 boxeador.setPeso(resultSet.getDouble("peso"));
                 boxeador.setAltura(resultSet.getDouble("altura"));
+                boxeador.setGym(resultSet.getString("nombreGym"));
+                boxeador.setCategoria(resultSet.getString("nombreCategoria"));
 
                 listaBoxeadores.add(boxeador);
             }
@@ -104,7 +149,7 @@ public class usuarioDao {
 
             while (resultSet.next()) {
                 Gym gym = new Gym();
-                gym.setNombre(resultSet.getString("nombre"));
+                gym.setNombre(resultSet.getString("nombreGym"));
                 gym.setNit(resultSet.getString("nit"));
                 gym.setCiudad(resultSet.getString("ciudad"));
                 listaGym.add(gym);
@@ -119,8 +164,9 @@ public class usuarioDao {
 
         return listaGym;
     }
-    //////////////////
-        public List listarCategoria() {
+
+
+    public List listarCategoria() {
         List<Categoria> listaCategoria = new ArrayList<>();
 
         try {
@@ -131,7 +177,7 @@ public class usuarioDao {
 
             while (resultSet.next()) {
                 Categoria categoria = new Categoria();
-                categoria.setNombre(resultSet.getString("nombre"));
+                categoria.setNombre(resultSet.getString("nombreCategoria"));
                 listaCategoria.add(categoria);
             }
             resultSet.close();
@@ -141,6 +187,39 @@ public class usuarioDao {
             Logger.getLogger(usuarioDao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        return listaCategoria;
+    }
+////////////LISTAR CATEGORIA EN LAS 4 TABLAS..
+
+    public List<Categoria> listarCategoriaTabla() {
+        List<Categoria> listaCategoria = new ArrayList<>();
+
+        try {
+            Connection conexion = conectar();
+            String sql = "SELECT nombreCategoria, puntuacion, nombreBox, nombreGym, nombreManager FROM categoria "
+                    + "INNER JOIN ranking ON categoria.idCategoria = ranking.idCategoria "
+                    + "INNER JOIN boxeador ON categoria.idCategoria = boxeador.idCategoria "
+                    + "INNER JOIN gym ON boxeador.idGym = gym.idGym "
+                    + "INNER JOIN manager ON boxeador.idManager = manager.idManager;";
+
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                Categoria categoria = new Categoria();
+                categoria.setNombre(resultSet.getString("nombreCategoria"));
+                categoria.setBox(resultSet.getString("nombreBox"));
+                categoria.setGym(resultSet.getString("nombreGym"));
+                categoria.setNombreManager(resultSet.getString("nombreManager"));
+
+                listaCategoria.add(categoria);
+            }
+            resultSet.close();
+            statement.close();
+            conexion.close();
+        } catch (Exception ex) {
+            Logger.getLogger(usuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return listaCategoria;
     }
 
@@ -171,8 +250,8 @@ public class usuarioDao {
 
         return listaJuez;
     }
-    
-        public List listarManager() {
+
+    public List listarManager() {
         List<Manager> listaManager = new ArrayList<>();
 
         try {
@@ -183,15 +262,14 @@ public class usuarioDao {
 
             while (resultSet.next()) {
                 Manager manager = new Manager();
-                manager.setNombre(resultSet.getString("nombre"));
+                manager.setNombreManager(resultSet.getString("nombreManager"));
                 manager.setApellido(resultSet.getString("apellido"));
                 manager.setTelefono(resultSet.getString("telefono"));
                 manager.setCorreo(resultSet.getString("correo"));
                 manager.setIdentificacion(resultSet.getString("identificacion"));
                 manager.setEdad(resultSet.getInt("edad"));
-                manager.setIdBoxeador(resultSet.getInt("idBoxeador"));
-                
-                
+                manager.setIdGym(resultSet.getInt("idGym"));
+
                 listaManager.add(manager);
             }
 
@@ -204,42 +282,43 @@ public class usuarioDao {
 
         return listaManager;
     }
-////////////////////////
+////////////////////////lISTAR rANKING
 
-    public List listarRanking() {
+    public List<Ranking> listarRanking() {
+        List<Ranking> listaRanking = new ArrayList<>();
 
-    List<Ranking> listaRanking = new ArrayList<>();
+        try {
+            Connection conexion = conectar();
+            String sql = "SELECT puntuacion, nombreCategoria, nombreBox, nombreGym FROM ranking "
+                    + "INNER JOIN categoria ON ranking.idCategoria = categoria.idCategoria "
+                    + "INNER JOIN boxeador ON ranking.idBoxeador = boxeador.idBoxeador "
+                    + "INNER JOIN gym ON boxeador.idGym = gym.idGym "
+                    + "ORDER BY puntuacion DESC";
 
-    try {
-        Connection conexion = conectar();
-        String sql = "SELECT r.*, b.nombre AS nombreBoxeador, c.nombre AS nombreCategoria "
-                + "FROM ranking r "
-                + "INNER JOIN boxeador b ON r.idBoxeador = b.idBoxeador "
-                + "INNER JOIN categoria c ON b.idCategoria = c.idCategoria";
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
 
-        Statement statement = conexion.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+            int puesto = 1;  // Inicializar el puesto en 1
 
-        while (resultSet.next()) {
-            Ranking ranking = new Ranking();
-            ranking.setPuntuacion(resultSet.getDouble("puntuacion"));
-            ranking.setPuesto(0);
-            ranking.setNombre(resultSet.getString("nombreBoxeador"));
-            ranking.setCategoria(resultSet.getString("nombreCategoria"));
+            while (resultSet.next()) {
+                Ranking ranking = new Ranking();
+                ranking.setPuntuacion(resultSet.getDouble("puntuacion"));
+                ranking.setPuesto(puesto);
+                ranking.setBox(resultSet.getString("nombreBox"));
+                ranking.setCategoria(resultSet.getString("nombreCategoria"));
+                ranking.setGym(resultSet.getString("nombreGym"));
+                listaRanking.add(ranking);
+                puesto++;
+            }
 
-            listaRanking.add(ranking);
+            resultSet.close();
+            statement.close();
+            conexion.close();
+        } catch (Exception ex) {
+            Logger.getLogger(usuarioDao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        resultSet.close();
-        statement.close();
-        conexion.close();
-    } catch (Exception ex) {
-        Logger.getLogger(usuarioDao.class.getName()).log(Level.SEVERE, null, ex);
-    }
-
-    return listaRanking;
-
-
+        return listaRanking;
     }
 
     public boolean existeCedula(String numeroCedula) {
@@ -301,16 +380,48 @@ public class usuarioDao {
         return nitExiste;
     }
 
-    public void agregarManager(Manager user) {
-
+    public int obtenerIdGymPorNombre(String nombreGym) {
         try {
             Connection conexion = conectar();
-            String sql = "INSERT INTO `manager` (`nombre`, `apellido`, `telefono`, `correo`, `identificacion`, `edad`, `idBoxeador`) "
-                    + "VALUES ('" + user.getNombre() + "', '" + user.getApellido() + "', '" + user.getTelefono() + "', '"
-                    + user.getCorreo() + "', '" + user.getIdentificacion() + "', '" + user.getEdad() + "', '" + user.getIdBoxeador()+ "');";
-            Statement sta = conexion.createStatement();
-            sta.execute(sql);
+            String consultaSQL = "SELECT idGym FROM gym WHERE nombre = ?";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consultaSQL);
+            preparedStatement.setString(1, nombreGym);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("idGym");
+            } else {
+                return -1; // Retorna -1 si no se encontró el Gym
+            }
         } catch (Exception ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+
+    public void agregarManager(Manager user) {
+        try {
+            Connection conexion = conectar();
+            int idGym = 1;
+
+            if (idGym != -1) {
+                String sql = "INSERT INTO `manager` (`nombre`, `apellido`, `telefono`, `correo`, `identificacion`, `edad`) "
+                        + "VALUES (?, ?, ?, ?, ?, ?)";
+                PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+                preparedStatement.setString(1, user.getNombreManager());
+                preparedStatement.setString(2, user.getApellido());
+                preparedStatement.setString(3, user.getTelefono());
+                preparedStatement.setString(4, user.getCorreo());
+                preparedStatement.setString(5, user.getIdentificacion());
+                preparedStatement.setInt(6, user.getEdad());
+                preparedStatement.setInt(7, idGym);
+
+                preparedStatement.executeUpdate();
+            } else {
+                System.out.println("No se encontró el Gym correspondiente.");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
             Logger.getLogger(usuarioDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -323,8 +434,10 @@ public class usuarioDao {
                     + "VALUES ('" + user.getNombre() + "', '" + user.getNit() + "', '" + user.getCiudad() + "');";
             Statement sta = conexion.createStatement();
             sta.execute(sql);
+
         } catch (Exception ex) {
-            Logger.getLogger(usuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(usuarioDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -336,8 +449,10 @@ public class usuarioDao {
                     + "VALUES ('" + user.getNombre() + "', '" + user.getPesoMin() + "', '" + user.getPesoMax() + "');";
             Statement sta = conexion.createStatement();
             sta.execute(sql);
+
         } catch (Exception ex) {
-            Logger.getLogger(usuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(usuarioDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -349,8 +464,10 @@ public class usuarioDao {
                     + "VALUES ('" + user.getNombre() + "', '" + user.getApellido() + "', '" + user.getIdentificacion() + "', '" + user.getEdad() + "');";
             Statement sta = conexion.createStatement();
             sta.execute(sql);
+
         } catch (Exception ex) {
-            Logger.getLogger(usuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(usuarioDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -393,7 +510,7 @@ public class usuarioDao {
                 boxeador.setApellido(resultSet.getString("apellido"));
                 boxeador.setCorreo(resultSet.getString("email"));
                 boxeador.setIdentificacion(resultSet.getString("documento"));
-                boxeador.setIdCategoria(resultSet.getInt("idCategoria"));
+                boxeador.setCategoria(resultSet.getString("nombreCategoria"));
                 boxeador.setEdad(resultSet.getInt("edad"));
                 boxeador.setTitulos(resultSet.getInt("titulos"));
                 boxeador.setKo(resultSet.getInt("ko"));
@@ -407,8 +524,10 @@ public class usuarioDao {
 
             preparedStatement.close();
             conexion.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(usuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(usuarioDao.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
         return boxeadores;

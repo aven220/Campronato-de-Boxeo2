@@ -4,6 +4,10 @@
  */
 package GUI;
 
+import DAO.usuarioDao;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author pc_Gamer
@@ -167,15 +171,33 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
+        String contrasena = jPasswordField1.getSelectedText();
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+        String usuario = jTextField1.getText();
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+                                        
+    String usuario = jTextField1.getText();
+    char[] contrasena = jPasswordField1.getPassword();
+    
+    // Crear una instancia de usuarioDao
+    usuarioDao lol = new usuarioDao();
+    
+    // Llamar al método verificarCredenciales con usuario y contrasena
+    boolean credencialesValidas = lol.verificarCredenciales(usuario, contrasena);
+    
+    if (credencialesValidas) {
+        // Si las credenciales son válidas, abrir la ventana del Torneo
+        Torneo tor = new Torneo();
+        tor.setVisible(true);
+    } else {
+       JOptionPane.showMessageDialog(rootPane, "VERIFIQUE SUS CREDENCIALES");
+    }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

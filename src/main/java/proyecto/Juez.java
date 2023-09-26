@@ -3,8 +3,40 @@ package proyecto;
 
 public class Juez {
 
-    private String nombre,apellido,identificacion;
+    private String nombre,apellido,identificacion,usuario,contrasena;
     private int edad,numPeleas,id;
+
+    public Juez() {
+    }
+
+    public Juez(String nombre, String apellido, String identificacion, String usuario, String contrasena, int edad, int numPeleas, int id) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.identificacion = identificacion;
+        this.usuario = usuario;
+        this.contrasena = contrasena;
+        this.edad = edad;
+        this.numPeleas = numPeleas;
+        this.id = id;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+    
+    
 
     public String getIdentificacion() {
         return identificacion;

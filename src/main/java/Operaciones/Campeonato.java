@@ -1,10 +1,7 @@
 package Operaciones;
 
-import DAO.TablaBoxeadores;
 import DAO.usuarioDao;
-import GUI.Inicio;
 import GUI.Login;
-import GUI.NewBoxeador;
 import javax.swing.JOptionPane;
 import proyecto.Boxeador;
 
@@ -12,7 +9,7 @@ public class Campeonato {
 
     public static void main(String[] args) {
         
-        //TablaBoxeadores ss = new TablaBoxeadores();
+     
       
         Login lol = new Login();
         lol.setVisible(true);
