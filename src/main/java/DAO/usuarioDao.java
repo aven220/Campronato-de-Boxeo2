@@ -20,11 +20,12 @@ import proyecto.Juez;
 import proyecto.Manager;
 import proyecto.Ranking;
 
-public class usuarioDao {
 
+public class usuarioDao {
+    
     public Connection conectar() {
 
-        String baseDeDatos = "BDTorneoBox";
+        String baseDeDatos = "bdtorneobox";
         String usuario = "root";
         String password = "";
         String host = "localhost";

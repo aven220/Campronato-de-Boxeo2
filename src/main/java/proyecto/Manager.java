@@ -3,7 +3,7 @@ package proyecto;
 public class Manager {
 
     private String apellido,telefono,correo,identificacion,nombreManager,nombreGym;
-    private int edad;
+    private int edad,idManager;
 
     public Manager() {
     }
@@ -74,6 +74,11 @@ public class Manager {
 
     public void setEdad(int edad) {
         this.edad = edad;
+    }
+    
+    @Override
+    public String toString() {
+     return idManager + "-" + nombreManager;
     }
     
     

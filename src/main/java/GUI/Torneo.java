@@ -5,6 +5,8 @@
 package GUI;
 
 import DAO.usuarioDao;
+import gestionmanager.ManagerConsultas;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
@@ -29,6 +31,7 @@ public class Torneo extends javax.swing.JFrame {
 
     public Torneo() {
         initComponents();
+        MostrarManager();
     }
 
     public void listarBox() {
@@ -171,7 +174,7 @@ public class Torneo extends javax.swing.JFrame {
         for (int i = 0; i < listarGym.size(); i++) {
             comboModel.addElement(listarGym.get(i).getNombre());
         }
-        jComboBox4.setModel(comboModel);
+        ComboManager.setModel(comboModel);
         jTable3.setModel(modelo);
     }
 
@@ -291,7 +294,7 @@ public class Torneo extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel34 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        ComboManager = new javax.swing.JComboBox<>();
         jButton12 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -553,7 +556,7 @@ public class Torneo extends javax.swing.JFrame {
             }
         });
 
-        jButton11.setIcon(new javax.swing.ImageIcon("C:\\Users\\pc_Gamer\\Documents\\NetBeansProjects\\Campronato de Boxeo2\\src\\test\\java\\Imagenes\\GuardarTodo.png")); // NOI18N
+        jButton11.setIcon(new javax.swing.ImageIcon("E:\\JHON_CABEZAS_UNICAUCA\\BOXEO\\Campronato-de-Boxeo2\\src\\test\\java\\Imagenes\\GuardarTodo.png")); // NOI18N
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton11ActionPerformed(evt);
@@ -605,9 +608,9 @@ public class Torneo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel31)
                         .addGap(45, 45, 45)))
-                .addGap(57, 57, 57)
+                .addGap(39, 39, 39)
                 .addComponent(jButton11)
-                .addGap(476, 476, 476))
+                .addGap(494, 494, 494))
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane13)
@@ -630,8 +633,8 @@ public class Torneo extends javax.swing.JFrame {
                             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70))
         );
 
@@ -678,7 +681,6 @@ public class Torneo extends javax.swing.JFrame {
             }
         });
 
-        jButton10.setIcon(new javax.swing.ImageIcon("C:\\Users\\pc_Gamer\\Documents\\NetBeansProjects\\Campronato de Boxeo2\\src\\test\\java\\Imagenes\\GuardarTodo.png")); // NOI18N
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);
@@ -1003,8 +1005,13 @@ public class Torneo extends javax.swing.JFrame {
 
         jLabel34.setText("Manager");
 
+        ComboManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboManagerActionPerformed(evt);
+            }
+        });
+
         jButton12.setForeground(new java.awt.Color(204, 204, 204));
-        jButton12.setIcon(new javax.swing.ImageIcon("C:\\Users\\pc_Gamer\\Documents\\NetBeansProjects\\Campronato de Boxeo2\\src\\test\\java\\Imagenes\\GuardarTodo.png")); // NOI18N
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton12ActionPerformed(evt);
@@ -1068,7 +1075,7 @@ public class Torneo extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(ComboManager, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(145, 145, 145))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
@@ -1102,7 +1109,7 @@ public class Torneo extends javax.swing.JFrame {
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(ComboManager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1127,7 +1134,6 @@ public class Torneo extends javax.swing.JFrame {
 
         jLabel15.setText("Gym");
 
-        jButton9.setIcon(new javax.swing.ImageIcon("C:\\Users\\pc_Gamer\\Documents\\NetBeansProjects\\Campronato de Boxeo2\\src\\test\\java\\Imagenes\\GuardarTodo.png")); // NOI18N
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
@@ -1460,7 +1466,7 @@ public class Torneo extends javax.swing.JFrame {
 
         Object categoriaBox = jComboBox2.getSelectedItem();
         Object gymBox = jComboBox1.getSelectedItem();
-        Object managerBox = jComboBox4.getSelectedItem();
+        Object managerBox = ComboManager.getSelectedItem();
 
         if (dao.existeCedula(identificacion) == false) {
             if (categoriaBox != null && gymBox != null) {
@@ -1654,6 +1660,11 @@ public class Torneo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
+    private void ComboManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboManagerActionPerformed
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_ComboManagerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1688,8 +1699,18 @@ public class Torneo extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void MostrarManager(){
+        ManagerConsultas funciones =new gestionmanager.ManagerConsultas();
+        ArrayList<Manager> lista=funciones.ObtenerManager();
+        ComboManager.addItem("Seleccionar");
+        for (int i = 0; i < lista.size(); i++) {
+            ComboManager.addItem(lista.get(i).getNombreManager());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboManager;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -1704,7 +1725,6 @@ public class Torneo extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
