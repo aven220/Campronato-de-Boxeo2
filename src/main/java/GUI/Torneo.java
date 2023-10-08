@@ -424,6 +424,11 @@ public class Torneo extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 680));
 
+        jTabbedPane1.setEnabled(false);
+        jTabbedPane1.setFocusable(false);
+        jTabbedPane1.setRequestFocusEnabled(false);
+        jTabbedPane1.setVerifyInputWhenFocusTarget(false);
+
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
