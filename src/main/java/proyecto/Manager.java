@@ -8,7 +8,8 @@ public class Manager {
     public Manager() {
     }
 
-    public Manager(String apellido, String telefono, String correo, String identificacion, String nombreManager, String nombreGym, int edad) {
+    public Manager(String apellido, String telefono, String correo, String identificacion, String nombreManager, String nombreGym, int edad, int idManager) {
+        this.idManager = idManager;
         this.apellido = apellido;
         this.telefono = telefono;
         this.correo = correo;
